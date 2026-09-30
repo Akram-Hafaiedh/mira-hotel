@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mira Hotel
 
-## Getting Started
+Boutique hotel template built with **Next.js (App Router)**, **TypeScript**, and **Tailwind CSS**. Includes a guest-facing site and a simple staff desk (`/admin`).
 
-First, run the development server:
+> Demo content only. No real bookings, payments, or property-management backend.
+
+## Layouts
+
+| Area | Path | Shell |
+|------|------|--------|
+| Guest site | `/`, `/rooms`, `/booking`, … | Header + footer (`app/(marketing)`) |
+| Staff desk | `/admin`, `/admin/reservations`, … | Sidebar + topbar (`app/admin`) |
+
+`(marketing)` is a route group — it does not appear in the URL. `admin` is a real URL segment.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Staff desk: [http://localhost:3000/admin](http://localhost:3000/admin).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+  layout.tsx              Root (fonts, metadata)
+  (marketing)/            Guest site
+    layout.tsx
+    page.tsx              Home
+    rooms/ booking/ about/ contact/
+  admin/                  Staff desk
+    layout.tsx
+    page.tsx              Overview
+    reservations/ rooms/ guests/ settings/
+components/               Shared UI (to grow)
+lib/                      Demo data, helpers (to grow)
+ROADMAP.md                Planned work for this product
+```
 
-## Learn More
+## Not included (by design)
 
-To learn more about Next.js, take a look at the following resources:
+- Real authentication
+- Payment or channel-manager integrations
+- Database / API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `ROADMAP.md` for the v1 checklist.
