@@ -17,20 +17,29 @@ Boutique hotel template built with **Next.js (App Router)**, **TypeScript**, and
 | Home | `/` |
 | Rooms list + detail | `/rooms`, `/rooms/[slug]` |
 | Booking (multi-step checkout) | `/booking` |
-| Dining (restaurant & menus) | `/dining` |
+| Dining (restaurant, hours, menu with photos) | `/dining` |
 | Experiences (activities) | `/experiences` |
 | About | `/about` |
 | Contact | `/contact` |
+
+Marketing chrome:
+
+- Header with **Rooms · Dining · Experiences · Book · About · Contact**, active route highlighting, theme toggle, profile menu
+- Footer with Stay / Dine & visit / Staff link groups
+- Shared **PageHero** intro on content pages (consistent type and spacing)
+- Mobile nav drawer
 
 ### Staff desk
 
 | Area | Path |
 |------|------|
-| Overview | `/admin` |
-| Reservations (search, filter, pagination) | `/admin/reservations`, `/admin/reservations/[id]` |
-| Rooms / housekeeping (units & catalog CRUD modals) | `/admin/rooms` |
+| Overview (stats, recent stays, housekeeping chips) | `/admin` |
+| Reservations (search, filter, pagination, detail) | `/admin/reservations`, `/admin/reservations/[id]` |
+| Rooms — units table, **housekeeping board**, room-type CRUD | `/admin/rooms` |
 | Guests | `/admin/guests` |
-| Settings | `/admin/settings` |
+| Settings (profile, sign out) | `/admin/settings` |
+
+Admin chrome: fixed sidebar with **active state**, sticky topbar, mobile drawer, theme toggle.
 
 ### Auth (demo only)
 
@@ -39,23 +48,24 @@ Boutique hotel template built with **Next.js (App Router)**, **TypeScript**, and
 | Sign in | `/login` |
 | Register | `/register` |
 
-Demo accounts: `desk@mirahotel.demo` or `manager@mirahotel.demo` — any password (4+ characters).
+Demo accounts: `desk@mirahotel.demo` or `manager@mirahotel.demo` — any password (4+ characters). Session is stored in `localStorage` only.
 
 ### Features
 
-- Light and dark themes (class-based toggle, persists in the browser)
-- Responsive marketing header/footer and admin sidebar with mobile navigation drawers
-- Dedicated Dining and Experiences showcases with curated demo data
-- Multi-step booking checkout flow (stay dates, extras/add-ons, payment method, mock confirmation reference)
-- Admin tables with search, status filters, and pagination
-- Interactive admin modals to add/edit room units and room catalog types (persists in `localStorage`)
-- Reusable UI primitives: Modal dialogs, Tabs, Empty states, and Table toolbars
+- Light and dark themes (class-based toggle, browser persistence)
+- Responsive marketing header/footer and admin sidebar
+- Dining showcase with sample menu **food photography**
+- Experiences catalog with curated demo data
+- Multi-step booking (dates, room, extras, mock payment & confirmation code)
+- Admin tables: search, status filters, pagination, empty states
+- Housekeeping **board** (dirty → in progress → clean → inspected)
+- Room unit & catalog CRUD modals (`localStorage` persistence)
+- Reusable UI: Modal, Tabs, EmptyState, TableToolbar, PageHero, status badges
 - Typed demo data in `lib/data/` — easy to replace
-- Accessible-ish patterns (labels, focus rings, dialog focus trap)
 
 ### Not included (by design)
 
-- Real authentication or session server
+- Real authentication or server sessions
 - Payments, channel manager, or PMS integrations
 - Database or API routes
 - Email delivery
@@ -67,8 +77,9 @@ You can connect your own auth and backend without rewriting the layouts.
 ## Tech stack
 
 - Next.js (App Router) + React + TypeScript
-- Tailwind CSS v4 (`@custom-variant dark` for class-based theme)
+- Tailwind CSS v4 (class-based dark mode)
 - Demo auth via `localStorage` (`lib/auth.tsx`)
+- Images: Unsplash demo URLs (`images.unsplash.com` allowed in `next.config.ts`)
 
 ---
 
@@ -79,12 +90,12 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Staff desk: [http://localhost:3000/admin](http://localhost:3000/admin) (sign in first).
+Open [http://localhost:3000](http://localhost:3000).  
+Staff desk: [http://localhost:3000/admin](http://localhost:3000/admin) (sign in first).
 
 ```bash
-npm run build   # production build
-npm run start   # run production build
-npm run lint    # lint
+npm run build
+npm start
 ```
 
 ---
@@ -93,56 +104,44 @@ npm run lint    # lint
 
 ```
 app/
-  layout.tsx                 Root (fonts, ThemeProvider, AuthProvider)
-  globals.css                Theme tokens + dark variant
-  (auth)/                    Login / register shell
-  (marketing)/               Guest site (home, rooms, booking, dining, experiences, about, contact)
-  admin/                     Staff desk (overview, reservations, rooms, guests, settings)
+  (marketing)/          Guest site (header + footer)
+  (auth)/               Login / register shell
+  admin/                Staff desk (gated)
 components/
-  auth/                      Login, register, user menu, require-auth
-  marketing/                 Booking form, room cards, mobile nav
-  admin/                     Status badges, table toolbar, mobile nav
-  shared/                    Theme toggle, empty state, modal, tabs
+  marketing/            Room cards, booking form, PageHero, nav
+  admin/                Tables, housekeeping board, sidebar nav
+  auth/                 Login form, user menu, RequireAuth
+  shared/               Theme toggle, modal, tabs, empty state
 lib/
-  auth.tsx                   Demo session
-  theme.tsx                  Light / dark theme
-  data/rooms.ts              Room catalog & filters
-  data/dining.ts             Restaurant info & menus
-  data/experiences.ts        Hotel experiences & activities
-  data/extras.ts             Stay add-ons & cost calculation
-  data/operations.ts         Reservations, guests, units
-  use-client-table.ts        Search / filter / pagination helper
-  booking.ts                 Stay date helpers
+  data/                 rooms, dining, experiences, operations, extras
+  auth.tsx              Demo session
+  nav.ts                Marketing + admin link config
+  booking.ts            Date helpers
+  images.ts             Unsplash size helpers
 ```
+
+Dynamic routes (keep these names in your app):
+
+- `app/(marketing)/rooms/[slug]/page.tsx`
+- `app/admin/reservations/[id]/page.tsx`
 
 ---
 
 ## Customizing
 
-**Content** — edit data files in `lib/data/` (`rooms.ts`, `dining.ts`, `experiences.ts`, `extras.ts`, and `operations.ts`).
-
-**Brand** — search for “Mira Hotel” / “Mira Desk”; logo is text-based in layouts.
-
-**Colors** — CSS variables in `app/globals.css`; most UI uses zinc scale + `dark:` pairs.
-
-**Theme** — toggle stores preference under `mira-hotel-theme` in `localStorage`.
-
----
-
-## Deploying
-
-Deploy to [Vercel](https://vercel.com/) with the default Next.js settings, or run `npm run build && npm run start` anywhere Node is supported.
-
-Allow `images.unsplash.com` in `next.config.ts` if you keep the demo photos (already configured).
+1. **Rooms / menu / experiences** — edit `lib/data/*.ts`
+2. **Copy & branding** — marketing pages under `app/(marketing)/`
+3. **Photos** — swap Unsplash URLs for files in `public/` (faster offline demos)
+4. **Nav links** — `lib/nav.ts`
 
 ---
 
 ## License
 
-Intended for commercial template use. Add your own `LICENSE` terms before listing on a marketplace. Third-party packages keep their own licenses.
+Intended for commercial template use. Add your own `LICENSE` before listing on a marketplace. Third-party packages keep their own licenses. Unsplash photos are subject to the [Unsplash License](https://unsplash.com/license).
 
 ---
 
 ## Roadmap
 
-See `ROADMAP.md` for completed v1 items and the seller-pack checklist (screenshots, walkthrough).
+See [`ROADMAP.md`](./ROADMAP.md) for completed work and the seller-pack checklist (screenshots, walkthrough).

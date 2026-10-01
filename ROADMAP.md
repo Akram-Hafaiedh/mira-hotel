@@ -5,56 +5,65 @@
 ## Premium bar
 
 - [x] Light + dark theme (class-based, hospitality neutrals)
-- [x] Responsive shells (marketing header/footer + admin sidebar)
+- [x] Responsive shells (marketing header/footer + admin sidebar + mobile drawers)
 - [x] Empty states on admin list views
-- [x] Realistic demo data (rooms, 24 reservations, 14 guests, 16 units)
+- [x] Realistic demo data (rooms, reservations, guests, units, dining, experiences)
 - [x] Live demo on Vercel
 - [ ] README screenshots + 60–90s walkthrough (seller pack)
-- [x] Clear “not included” (no real payments, PMS, or auth/DB)
+- [x] Clear “not included” (no real payments, PMS, or server auth/DB)
 
 ## v1 scope
 
 ### Guest site `(marketing)`
 
 - [x] Layout: header + footer + mobile nav
-- [x] Home
-- [x] Rooms list + room detail (with category filter & galleries)
-- [x] Dining page (restaurant teaser, menus, hours, table reservation link)
-- [x] Experiences catalog (curated activities & amenity highlights)
-- [x] Booking UI (dates, guests, multi-step checkout, stay extras, mock payment & confirmation)
+- [x] Nav includes Dining & Experiences; **active page** highlighting
+- [x] Footer link groups (Stay / Dine & visit / Staff)
+- [x] Shared **PageHero** on content pages
+- [x] Home (rooms, dining teaser, experiences, booking CTA)
+- [x] Rooms list + room detail (galleries, booking deep-link)
+- [x] Dining (hours, notes, sample menu with **food images**)
+- [x] Experiences catalog
+- [x] Booking UI (dates, guests, multi-step checkout, extras, mock confirm)
 - [x] About
-- [x] Contact
+- [x] Contact (demo form + desk details)
 
 ### Staff desk `/admin`
 
 - [x] Layout: fixed sidebar + sticky topbar + mobile nav
-- [x] Overview with stat cards + recent reservations
-- [x] Reservations list + detail (search, status filter, pagination)
-- [x] Rooms / housekeeping status (search, filters, pagination)
-- [x] Interactive Room Units & Room Catalog management (CRUD modals with localStorage persistence)
+- [x] **Active** item in sidebar / mobile nav
+- [x] Overview: real stats, recent reservations, housekeeping chips
+- [x] Reservations list (search, status filter, pagination) + detail (guest, notes, demo actions)
+- [x] Rooms: units table, filters, CRUD modals
+- [x] **Housekeeping board** (dirty / in progress / clean / inspected)
+- [x] Room types catalog CRUD (`localStorage`)
 - [x] Guests (search, pagination)
-- [x] Settings (profile, property, theme, notifications UI)
+- [x] Settings (profile + sign out)
 
 ### Auth
 
 - [x] Auth layout (image panel + theme toggle)
 - [x] Login / register (demo session)
-- [x] RequireAuth gate + user menu
+- [x] RequireAuth gate + header/admin user menu
 
 ## Done beyond original v1
 
 - [x] Theme toggle on marketing, admin, and auth
 - [x] Client-side table toolkit (`useClientTable` + `TableToolbar`)
-- [x] Dining and Experiences marketing pages & datasets
-- [x] Stay extras & add-ons breakdown during booking
-- [x] Reusable `Modal` and `Tabs` components with `localStorage` persistence in admin
+- [x] Stay extras during booking
+- [x] Reusable Modal, Tabs, PageHero, status badges
+- [x] next/image `sizes` tuned for constrained page bands
 
-## Later / sell pack
+## Later / seller pack
 
-- [ ] Gallery page
-- [ ] Charts on admin overview
-- [ ] Active nav highlighting in admin sidebar
-- [ ] Loading skeletons on slow routes
-- [ ] 4–8 product screenshots
+- [ ] 4–8 product screenshots (home, room, dining, booking, admin overview, housekeeping)
 - [ ] 60–90s walkthrough video
-- [ ] Commercial license file (if selling)
+- [ ] Commercial `LICENSE` file (if selling)
+- [ ] Optional: local images under `public/` instead of Unsplash
+- [ ] Optional: gallery page
+- [ ] Optional: charts on admin overview
+- [ ] Optional: loading skeletons on slow routes
+
+## Cadence note
+
+Ship seller assets next if the goal is marketplace listing. Product surface for v1 is otherwise complete for a boutique hotel template demo.
