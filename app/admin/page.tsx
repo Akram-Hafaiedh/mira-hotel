@@ -32,8 +32,8 @@ export default function AdminOverviewPage() {
     .slice(0, 5);
 
   const stats = [
-    { label: "Arrivals today", value: String(arrivals.length + 2) },
-    { label: "Departures", value: String(Math.max(departures.length, 4)) },
+    { label: "Arrivals today", value: String(arrivals.length) },
+    { label: "Departures", value: String(departures.length) },
     { label: "Occupancy", value: `${occupancy}%` },
     { label: "Open requests", value: String(openRequests) },
   ] as const;
@@ -63,6 +63,27 @@ export default function AdminOverviewPage() {
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {roomUnits
+          .filter((u) => u.housekeeping === "dirty" || u.housekeeping === "in-progress")
+          .slice(0, 6)
+          .map((u) => (
+            <Link
+              key={u.id}
+              href="/admin/rooms"
+              className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-700 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+            >
+              #{u.number} · {u.housekeeping}
+            </Link>
+          ))}
+        <Link
+          href="/admin/rooms"
+          className="rounded-full px-3 py-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
+        >
+          Housekeeping board →
+        </Link>
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">

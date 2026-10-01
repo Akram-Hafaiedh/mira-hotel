@@ -8,6 +8,7 @@ import {
 import { TableToolbar } from "@/components/admin/table-toolbar";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Modal } from "@/components/shared/modal";
+import { HousekeepingBoard } from "@/components/admin/housekeeping-board";
 import { Tabs } from "@/components/shared/tabs";
 import {
   formatShortDate,
@@ -27,7 +28,7 @@ import { useClientTable } from "@/lib/use-client-table";
 const UNITS_KEY = "mira-hotel-admin-units";
 const CATALOG_KEY = "mira-hotel-admin-catalog";
 
-type Tab = "units" | "types";
+type Tab = "units" | "board" | "types";
 
 type UnitForm = {
   number: string;
@@ -55,6 +56,7 @@ type TypeForm = {
 
 const TABS = [
   { id: "units" as const, label: "Units" },
+  { id: "board" as const, label: "Housekeeping" },
   { id: "types" as const, label: "Room types" },
 ];
 
@@ -424,6 +426,13 @@ export default function AdminRoomsPage() {
           onEdit={openEditUnit}
           onDelete={setDeleteUnitId}
         />
+      ) : tab === "board" ? (
+        <div className="space-y-4">
+          <p className="text-sm text-zinc-500">
+            Housekeeping board by status — demo snapshot of all units.
+          </p>
+          <HousekeepingBoard units={sortedUnits} />
+        </div>
       ) : (
         <TypesPanel catalog={catalog} onEdit={openEditType} />
       )}
@@ -850,7 +859,7 @@ function UnitsPanel({
       ) : (
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-180 text-left text-sm">
               <thead>
                 <tr className="border-b border-zinc-100 text-xs uppercase tracking-wide text-zinc-500 dark:border-zinc-900">
                   <th className="px-4 py-3 font-medium">Unit</th>
@@ -935,7 +944,7 @@ function TypesPanel({
       </p>
       <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-160 text-left text-sm">
             <thead>
               <tr className="border-b border-zinc-100 text-xs uppercase tracking-wide text-zinc-500 dark:border-zinc-900">
                 <th className="px-4 py-3 font-medium">Type</th>
