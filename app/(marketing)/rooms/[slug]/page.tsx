@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RoomVisual } from "@/components/marketing/room-visual";
 import {
+    categoryLabel,
     formatPrice,
     roomBySlug,
     rooms,
@@ -33,9 +34,11 @@ export default async function RoomDetailPage({ params }: Props) {
     const room = roomBySlug(slug);
     if (!room) notFound();
 
-    const others = rooms.filter((r) => r.slug !== room.slug).slice(0, 3);
-    // Full gallery strip (all demo photos for this room)
-    const gallery = room.gallery.length > 0 ? room.gallery : [room.image];
+    const others = rooms.filter((r) => r.slug !== room.slug).slice(0, 4);
+    const gallery =
+        room.gallery.length > 0
+            ? room.gallery
+            : [{ src: room.image, label: "Room", alt: room.imageAlt }];
 
     return (
         <div>
@@ -43,7 +46,7 @@ export default async function RoomDetailPage({ params }: Props) {
                 <RoomVisual room={room} variant="hero" showBadge={false} priority />
                 <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-6xl px-4 pb-8 sm:px-6">
                     <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/85">
-                        {room.highlight}
+                        {categoryLabel[room.category]} · {room.highlight}
                     </p>
                     <h1 className="mt-2 text-3xl font-medium tracking-tight text-white sm:text-4xl">
                         {room.name}
@@ -54,27 +57,28 @@ export default async function RoomDetailPage({ params }: Props) {
                 </div>
             </div>
 
-            {/* Gallery — full width under hero */}
             <section className="border-b border-zinc-200 dark:border-zinc-800">
                 <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
                     <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
                         Gallery
                     </h2>
-                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        {gallery.map((src, i) => (
-                            <div
-                                key={`${src}-${i}`}
-                                className="relative aspect-4/3 overflow-hidden rounded-xl bg-zinc-200 dark:bg-zinc-800"
-                            >
-                                <Image
-                                    src={i === 0 ? unsplashHero(src) : unsplashCard(src)}
-                                    alt={`${room.name} — photo ${i + 1}`}
-                                    fill
-                                    sizes="(max-width: 640px) 100vw, 33vw"
-                                    className="object-cover"
-                                    priority={i === 0}
-                                    loading={i === 0 ? "eager" : "lazy"}
-                                />
+                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {gallery.map((shot, i) => (
+                            <div key={`${shot.src}-${i}`} className="group relative">
+                                <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-zinc-200 dark:bg-zinc-800">
+                                    <Image
+                                        src={i === 0 ? unsplashHero(shot.src) : unsplashCard(shot.src)}
+                                        alt={shot.alt}
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, 33vw"
+                                        className="object-cover"
+                                        priority={i === 0}
+                                        loading={i === 0 ? "eager" : "lazy"}
+                                    />
+                                </div>
+                                <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                                    {shot.label}
+                                </p>
                             </div>
                         ))}
                     </div>
@@ -125,8 +129,13 @@ export default async function RoomDetailPage({ params }: Props) {
                                                 />
                                             </span>
                                             <span className="flex min-w-0 flex-1 items-center justify-between gap-3">
-                                                <span className="font-medium text-zinc-800 dark:text-zinc-200">
-                                                    {r.name}
+                                                <span>
+                                                    <span className="block font-medium text-zinc-800 dark:text-zinc-200">
+                                                        {r.name}
+                                                    </span>
+                                                    <span className="text-xs text-zinc-500">
+                                                        {categoryLabel[r.category]}
+                                                    </span>
                                                 </span>
                                                 <span className="shrink-0 tabular-nums text-zinc-500">
                                                     from {formatPrice(r.priceFrom)}
@@ -151,6 +160,12 @@ export default async function RoomDetailPage({ params }: Props) {
                         </p>
                         <dl className="mt-6 space-y-3 border-t border-zinc-100 pt-6 text-sm dark:border-zinc-900">
                             <div className="flex justify-between gap-4">
+                                <dt className="text-zinc-500">Category</dt>
+                                <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                                    {categoryLabel[room.category]}
+                                </dd>
+                            </div>
+                            <div className="flex justify-between gap-4">
                                 <dt className="text-zinc-500">Size</dt>
                                 <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                                     {room.sizeSqm} m²
@@ -166,6 +181,12 @@ export default async function RoomDetailPage({ params }: Props) {
                                 <dt className="text-zinc-500">Guests</dt>
                                 <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                                     Up to {room.guests}
+                                </dd>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                                <dt className="text-zinc-500">Keys (demo)</dt>
+                                <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                                    {room.unitsAvailable}
                                 </dd>
                             </div>
                         </dl>

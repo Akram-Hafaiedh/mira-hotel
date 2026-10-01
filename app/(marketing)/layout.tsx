@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { UserMenu } from "@/components/auth/user-menu";
+import { MobileNav } from "@/components/marketing/mobile-nav";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 const nav = [
   { href: "/rooms", label: "Rooms" },
@@ -34,21 +36,23 @@ export default function MarketingLayout({
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle />
             <UserMenu variant="marketing" />
             <Link
               href="/booking"
-              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+              className="hidden rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 sm:inline-flex dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
             >
               Book a stay
             </Link>
+            <MobileNav />
           </div>
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 bg-zinc-50 dark:bg-zinc-950">{children}</main>
 
-      <footer className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
+      <footer className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-zinc-600 sm:flex-row sm:items-start sm:justify-between sm:px-6 dark:text-zinc-400">
           <div>
             <p className="font-medium text-zinc-900 dark:text-zinc-100">
