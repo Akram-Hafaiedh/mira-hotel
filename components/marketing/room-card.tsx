@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Room } from "@/lib/data/rooms";
-import { formatPrice } from "@/lib/data/rooms";
+import { categoryLabel, formatPrice } from "@/lib/data/rooms";
 import { RoomVisual } from "@/components/marketing/room-visual";
 
 export function RoomCard({ room }: { room: Room }) {
@@ -13,7 +13,13 @@ export function RoomCard({ room }: { room: Room }) {
             <div className="flex flex-1 flex-col gap-3 p-5">
                 <div className="flex items-start justify-between gap-3">
                     <div>
-                        <h2 className="text-base font-semibold tracking-tight text-zinc-900 group-hover:underline group-hover:underline-offset-4 dark:text-zinc-50">
+                        <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                            {categoryLabel[room.category]}
+                            {room.unitsAvailable > 1
+                                ? ` · ${room.unitsAvailable} units`
+                                : " · 1 unit"}
+                        </p>
+                        <h2 className="mt-1 text-base font-semibold tracking-tight text-zinc-900 group-hover:underline group-hover:underline-offset-4 dark:text-zinc-50">
                             {room.name}
                         </h2>
                         <p className="mt-1 text-sm text-zinc-500">{room.tagline}</p>
@@ -27,7 +33,8 @@ export function RoomCard({ room }: { room: Room }) {
                     {room.description}
                 </p>
                 <p className="mt-auto pt-1 text-xs text-zinc-500">
-                    {room.sizeSqm} m² · {room.beds} · up to {room.guests} guests
+                    {room.sizeSqm} m² · {room.beds} · up to {room.guests} guests ·{" "}
+                    {room.gallery.length} photos
                 </p>
             </div>
         </Link>
