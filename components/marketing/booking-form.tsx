@@ -461,7 +461,7 @@ export function BookingForm({ initialRoomSlug }: { initialRoomSlug?: string }) {
                         <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                             Room
                         </h2>
-                        <ul className="mt-4 max-h-[28rem] space-y-2 overflow-y-auto pr-1">
+                        <ul className="mt-4 max-h-112 space-y-2 overflow-y-auto pr-1">
                             {rooms.map((r) => {
                                 const selected = r.slug === roomSlug;
                                 const tooSmall = guests > r.guests;
@@ -572,7 +572,7 @@ export function BookingForm({ initialRoomSlug }: { initialRoomSlug?: string }) {
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
                                     rows={3}
-                                    className={cn(inputClass, "mt-1.5 min-h-[88px] py-2.5")}
+                                    className={cn(inputClass, "mt-1.5 min-h-22 py-2.5")}
                                     placeholder="Arrival time, preferences…"
                                 />
                             </label>

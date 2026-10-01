@@ -68,7 +68,7 @@ export default function HomePage() {
       {/* Dining teaser */}
       <section className="border-t border-zinc-200 dark:border-zinc-800">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 dark:bg-zinc-800">
+          <div className="relative aspect-4/3 overflow-hidden rounded-2xl bg-zinc-200 dark:bg-zinc-800">
             <Image
               src={unsplashHero(restaurant.image)}
               alt={restaurant.imageAlt}
@@ -135,7 +135,7 @@ export default function HomePage() {
                 href="/experiences"
                 className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700"
               >
-                <div className="relative aspect-[16/10] bg-zinc-200 dark:bg-zinc-800">
+                <div className="relative aspect-16/10 bg-zinc-200 dark:bg-zinc-800">
                   <Image
                     src={unsplashCard(exp.image)}
                     alt={exp.imageAlt}

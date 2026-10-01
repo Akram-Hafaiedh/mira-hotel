@@ -3,14 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { marketingNav, pathIsActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
-
-const nav = [
-    { href: "/rooms", label: "Rooms" },
-    { href: "/booking", label: "Book" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
-] as const;
 
 export function MobileNav() {
     const [open, setOpen] = useState(false);
@@ -37,7 +31,14 @@ export function MobileNav() {
                 aria-label="Open menu"
                 className="flex size-9 items-center justify-center rounded-full text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-900"
             >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="size-5" aria-hidden>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    className="size-5"
+                    aria-hidden
+                >
                     <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
                 </svg>
             </button>
@@ -61,42 +62,46 @@ export function MobileNav() {
                                 aria-label="Close menu"
                                 className="flex size-9 items-center justify-center rounded-full text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
                             >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="size-5" aria-hidden>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.75"
+                                    className="size-5"
+                                    aria-hidden
+                                >
                                     <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
                                 </svg>
                             </button>
                         </div>
-                        <nav className="flex flex-1 flex-col gap-1 p-3">
-                            {nav.map((item) => {
-                                const active = pathname === item.href;
+                        <nav className="flex flex-col gap-1 p-3">
+                            {marketingNav.map((item) => {
+                                const active = pathIsActive(pathname, item.href);
                                 return (
                                     <Link
                                         key={item.href}
                                         href={item.href}
+                                        onClick={() => setOpen(false)}
                                         className={cn(
-                                            "rounded-xl px-3 py-3 text-sm font-medium transition-colors",
+                                            "rounded-lg px-3 py-2.5 text-sm transition-colors",
                                             active
-                                                ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-50"
-                                                : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
+                                                ? "bg-zinc-100 font-medium text-zinc-900 dark:bg-zinc-900 dark:text-zinc-50"
+                                                : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-900",
                                         )}
+                                        aria-current={active ? "page" : undefined}
                                     >
                                         {item.label}
                                     </Link>
                                 );
                             })}
                         </nav>
-                        <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
+                        <div className="mt-auto border-t border-zinc-200 p-4 dark:border-zinc-800">
                             <Link
                                 href="/booking"
-                                className="flex h-11 items-center justify-center rounded-full bg-zinc-900 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                                onClick={() => setOpen(false)}
+                                className="flex h-11 items-center justify-center rounded-full bg-zinc-900 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-900"
                             >
                                 Book a stay
-                            </Link>
-                            <Link
-                                href="/login"
-                                className="mt-3 block text-center text-xs text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"
-                            >
-                                Staff sign in
                             </Link>
                         </div>
                     </div>
