@@ -1,16 +1,9 @@
 import Link from "next/link";
 import { AdminMobileNav } from "@/components/admin/mobile-nav";
+import { AdminSidebarNav } from "@/components/admin/sidebar-nav";
 import { RequireAuth } from "@/components/auth/require-auth";
 import { UserMenu } from "@/components/auth/user-menu";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-
-const nav = [
-  { href: "/admin", label: "Overview", end: true },
-  { href: "/admin/reservations", label: "Reservations" },
-  { href: "/admin/rooms", label: "Rooms" },
-  { href: "/admin/guests", label: "Guests" },
-  { href: "/admin/settings", label: "Settings" },
-] as const;
 
 export default function AdminLayout({
   children,
@@ -19,7 +12,6 @@ export default function AdminLayout({
 }) {
   return (
     <RequireAuth>
-      {/* h-dvh + overflow-hidden: sidebar stays put, only main scrolls */}
       <div className="flex h-dvh overflow-hidden bg-zinc-50 dark:bg-zinc-950">
         <aside className="hidden w-56 shrink-0 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 lg:flex">
           <div className="flex h-14 shrink-0 items-center border-b border-zinc-200 px-4 dark:border-zinc-800">
@@ -30,17 +22,7 @@ export default function AdminLayout({
               Mira Desk
             </Link>
           </div>
-          <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-md px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <AdminSidebarNav />
           <div className="shrink-0 border-t border-zinc-200 p-3 dark:border-zinc-800">
             <Link
               href="/"
